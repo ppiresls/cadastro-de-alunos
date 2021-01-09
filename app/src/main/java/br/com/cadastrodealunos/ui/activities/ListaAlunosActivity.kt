@@ -2,10 +2,14 @@ package br.com.cadastrodealunos.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import android.widget.Toast
 import br.com.cadastrodealunos.R
 import br.com.cadastrodealunos.models.Aluno
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 
 class ListaAlunosActivity : AppCompatActivity() {
     private val APPBAR_TITLE = "Lista de Alunos"
@@ -30,5 +34,11 @@ class ListaAlunosActivity : AppCompatActivity() {
             this,
             android.R.layout.simple_list_item_1,
             alunos)
+
+        val fab: FloatingActionButton = findViewById(R.id.fab_novo_aluno)
+        fab.setOnClickListener { view ->
+            Snackbar.make(view, "Novo Aluno", Snackbar.LENGTH_LONG)
+                .show()
+        }
     }
 }
