@@ -21,13 +21,13 @@ class ListaAlunosActivity : AppCompatActivity() {
 
         val alunos =
             listOf(
-                Aluno("Aluno 1"),
-                Aluno("Aluno 2"),
-                Aluno("Aluno 3"),
-                Aluno("Aluno 4"),
-                Aluno("Aluno 5"),
-                Aluno("Aluno 6"),
-                Aluno("Aluno 7"))
+                Aluno("Aluno 1", "mail@mail.com", "21 966666666"),
+                Aluno("Aluno 2", "mail@mail.com", "21 966666666"),
+                Aluno("Aluno 3", "mail@mail.com", "21 966666666"),
+                Aluno("Aluno 4", "mail@mail.com", "21 966666666"),
+                Aluno("Aluno 5", "mail@mail.com", "21 966666666"),
+                Aluno("Aluno 6", "mail@mail.com", "21 966666666"),
+                Aluno("Aluno 7", "mail@mail.com", "21 966666666"))
 
         val listaAlunos = findViewById<ListView>(R.id.listaAlunos)
         listaAlunos.adapter = ArrayAdapter(
