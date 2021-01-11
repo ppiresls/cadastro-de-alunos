@@ -17,18 +17,31 @@ class FormularioAlunoActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setTitle(TITULO_APPBAR)
         setContentView(R.layout.activity_formulario_aluno)
-        configuraBotaoSalvar()
+        val campoTelefone: EditText = findViewById(R.id.activity_formulario_aluno_telefone)
+        val campoEmail:    EditText = findViewById(R.id.activity_formulario_aluno_email)
+        val campoNome:     EditText = findViewById(R.id.activity_formulario_aluno_nome)
+
+        var aluno = Aluno()
+        if (intent.hasExtra("aluno")) {
+            aluno = intent.getSerializableExtra("aluno") as Aluno
+            setaCamposFormularioParaEdicao(aluno, campoTelefone, campoEmail, campoNome)
+        }
+        configuraBotaoSalvar(aluno, campoTelefone, campoEmail, campoNome)
     }
 
-    private fun configuraBotaoSalvar() {
+    private fun setaCamposFormularioParaEdicao(aluno: Aluno, campoTelefone: EditText, campoEmail: EditText, campoNome: EditText) {
+        campoTelefone.setText(aluno.getTelefone())
+        campoEmail.setText(aluno.getEmail())
+        campoNome.setText(aluno.getNome())
+    }
+
+    private fun configuraBotaoSalvar(aluno: Aluno, campoTelefone: EditText, campoEmail: EditText, campoNome: EditText) {
         val botaoSalvar: Button =
                 findViewById(R.id.activity_formulario_aluno_botao_salvar)
         botaoSalvar.setOnClickListener(View.OnClickListener {
-            val campoTelefone: EditText = findViewById(R.id.activity_formulario_aluno_telefone)
-            val campoEmail:    EditText = findViewById(R.id.activity_formulario_aluno_email)
-            val campoNome:     EditText = findViewById(R.id.activity_formulario_aluno_nome)
-
-            val aluno = criaAluno(campoTelefone, campoEmail, campoNome)
+            aluno.setTelefone(campoTelefone.text.toString())
+            aluno.setEmail(campoEmail.text.toString())
+            aluno.setNome(campoNome.text.toString())
             salvaAlunoEFinalizaActivity(aluno)
         })
     }
@@ -36,13 +49,5 @@ class FormularioAlunoActivity: AppCompatActivity() {
     private fun salvaAlunoEFinalizaActivity(aluno: Aluno) {
         alunoDao.salva(aluno)
         finish()
-    }
-
-    private fun criaAluno(campoTelefone: EditText, campoEmail: EditText, campoNome: EditText): Aluno {
-        val telefone: String = campoTelefone.text.toString()
-        val email:    String = campoEmail.text.toString()
-        val nome:     String = campoNome.text.toString()
-
-        return Aluno(nome, email, telefone)
     }
 }
