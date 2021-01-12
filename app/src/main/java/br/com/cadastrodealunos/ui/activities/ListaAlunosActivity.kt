@@ -3,8 +3,6 @@ package br.com.cadastrodealunos.ui.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
@@ -12,7 +10,6 @@ import br.com.cadastrodealunos.R
 import br.com.cadastrodealunos.dao.AlunoDAO
 import br.com.cadastrodealunos.models.Aluno
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 
 class ListaAlunosActivity : AppCompatActivity() {
     private val TITULO_APPBAR = "Lista de Alunos"
@@ -43,16 +40,33 @@ class ListaAlunosActivity : AppCompatActivity() {
 
     private fun configuraLista() {
         val listaAlunos = findViewById<ListView>(R.id.listaAlunos)
-        listaAlunos.adapter = ArrayAdapter(
+        val adapter = ArrayAdapter(
                 this,
                 android.R.layout.simple_list_item_1,
                 alunoDao.todos())
 
+        listaAlunos.adapter = adapter
+
         configuraOnItemClick(listaAlunos)
+        configuraOnItemLongClick(listaAlunos, adapter)
+    }
+
+    private fun configuraOnItemLongClick(listaAlunos: ListView, adapter: ArrayAdapter<Aluno>) {
+        listaAlunos.onItemLongClickListener = AdapterView.OnItemLongClickListener { parent, _, position, _ ->
+            val aluno = parent.getItemAtPosition(position) as Aluno
+            alunoDao.deleta(aluno)
+            atualizaListView(adapter)
+            true
+        }
+    }
+
+    private fun atualizaListView(adapter: ArrayAdapter<Aluno>) {
+        adapter.clear()
+        adapter.addAll(alunoDao.todos())
     }
 
     private fun configuraOnItemClick(listaAlunos: ListView) {
-        listaAlunos.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+        listaAlunos.onItemClickListener = AdapterView.OnItemClickListener { parent, _, position, _ ->
             val aluno = parent.getItemAtPosition(position) as Aluno
             val intent = Intent(this, FormularioAlunoActivity::class.java)
             intent.putExtra("aluno", aluno)
