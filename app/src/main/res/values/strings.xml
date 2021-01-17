@@ -4,4 +4,5 @@
     <string name="hint_campo_email">E-mail</string>
     <string name="hint_campo_telefone">Telefone</string>
     <string name="rotulo_botao_salvar">Salvar</string>
+    <string name="activity_lista_alunos_menu_remover_rotulo">Remover</string>
 </resources>
